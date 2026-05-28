@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Friday — AI Assistant</title>
+ 
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Syne:wght@400;600;700;800&display=swap%22 rel="stylesheet">
+ 
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+ 
+<div class="shell">
+ 
+  <!-- ════════════════════════════════
+       SIDEBAR
+       ════════════════════════════════ -->
+  <aside class="sidebar">
+ 
+    <!-- Logo -->
+    <div class="logo-wrap">
+      <div class="logo">Friday</div>
+      <div class="logo-sub">AI Assistant</div>
+    </div>
+ 
+    <!-- Mode selector -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">Mode</div>
+ 
+      <button class="mode-btn active" id="btn-chat" onclick="setMode('chat')">
+        <span class="icon">💬</span>
+        <span>Chat</span>
+      </button>
+ 
+      <button class="mode-btn" id="btn-voice" onclick="setMode('voice')">
+        <span class="icon">🎙️</span>
+        <span>Voice</span>
+      </button>
+ 
+      <button class="mode-btn" id="btn-doc" onclick="setMode('doc')">
+        <span class="icon">📄</span>
+        <span>Document Q&amp;A</span>
+      </button>
+    </div>
+ 
+    <div class="sidebar-divider"></div>
+ 
+    <!-- Document upload -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">Document</div>
+ 
+      <!-- Drop zone -->
+      <div class="doc-zone" id="dropZone">
+        <input type="file" id="file" accept=".pdf,.png,.jpg,.jpeg" onchange="handleFileSelect(this)">
+        <div class="doc-zone-icon">📎</div>
+        <div class="doc-zone-text">
+          <strong>Drop file here</strong><br>PDF, PNG, JPG supported
+        </div>
+      </div>
+ 
+      <!-- Upload status -->
+      <div class="doc-status" id="docStatus">
+        <span id="docStatusIcon">✓</span>
+        <span id="docStatusText">Ready</span>
+      </div>
+ 
+      <!-- Recent documents -->
+      <div class="sidebar-label" style="padding: 12px 16px 4px; margin-top: 8px;">
+        Recent Documents
+      </div>
+      <div id="docHistory" style="padding: 0 8px;"></div>
+    </div>
+ 
+    <!-- Connection status -->
+    <div class="sidebar-bottom">
+      <div class="status-dot">
+        <span class="dot"></span>
+        <span>Connected to backend</span>
+      </div>
+    </div>
+ 
+  </aside><!-- /sidebar -->
+ 
+ 
+  <!-- ════════════════════════════════
+       MAIN CONTENT
+       ════════════════════════════════ -->
+  <main class="main">
+ 
+    <!-- Top bar -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title" id="topbarTitle">Chat</div>
+        <div class="topbar-mode"  id="topbarMode">TEXT MODE</div>
+      </div>
+      <button class="clear-btn" onclick="clearChat()">Clear chat</button>
+    </div>
+ 
+    <!-- Chat messages -->
+    <div class="chat-area" id="chat">
+      <div class="empty-state" id="emptyState">
+        <div class="empty-icon">✦</div>
+        <div class="empty-title">Start a conversation</div>
+        <div class="empty-sub">Ask me anything, upload a document, or use your voice.</div>
+        <div class="suggestions">
+          <span class="sugg" onclick="quickSend('What can you help me with?')">What can you do?</span>
+          <span class="sugg" onclick="quickSend('Explain quantum computing briefly')">Explain quantum computing</span>
+          <span class="sugg" onclick="quickSend('Write a short poem about the ocean')">Write a poem</span>
+        </div>
+      </div>
+    </div>
+ 
+    <!-- Input area -->
+    <div class="input-wrap">
+ 
+      <!-- Text input row -->
+      <div class="input-row">
+        <textarea
+          id="input"
+          rows="1"
+          placeholder="Message Friday..."
+          onkeydown="handleKey(event)"
+          oninput="autoResize(this)"
+        ></textarea>
+        <div class="action-btns">
+          <button class="icon-btn" id="voiceToggle" title="Toggle voice mode" onclick="toggleVoice()">
+            🎙️
+          </button>
+          <button class="send-btn" id="sendBtn" onclick="sendText()" title="Send message">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="2.5"
+                 stroke-linecap="round" stroke-linejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+ 
+      <!-- Document Q&A bar (visible only in doc mode) -->
+      <div class="doc-ask-bar" id="docAskBar">
+        <input type="text" id="question" placeholder="Ask a question about your document...">
+        <button class="ask-btn" onclick="ask()">Ask Document</button>
+      </div>
+ 
+    </div><!-- /input-wrap -->
+ 
+  </main><!-- /main -->
+ 
+</div><!-- /shell -->
+ 
+<!-- Main JavaScript -->
+<script src="app.js"></script>
+ 
+</body>
+</html>
+ 
+ 
